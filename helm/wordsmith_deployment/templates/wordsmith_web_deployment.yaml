@@ -1,0 +1,38 @@
+# web-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordsmith-web
+  template:
+    metadata:
+      labels:
+        app: wordsmith-web
+    spec:
+      containers:
+      - name: wordsmith-web
+        image: "{{ .Values.image.web.repository }}:{{ .Values.image.web.tag | default .Chart.AppVersion }}"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: API_URL
+          value: "http://wordsmith_api"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordsmith-web
+spec:
+  type: LoadBalancer
+  selector:
+    app: wordsmith-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
