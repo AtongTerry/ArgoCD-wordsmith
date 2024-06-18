@@ -1,0 +1,45 @@
+# db-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith_db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordsmith_db
+  template:
+    metadata:
+      labels:
+        app: wordsmith_db
+    spec:
+      containers:
+      - name: wordsmith_db
+        image: 352588443787.dkr.ecr.us-east-1.amazonaws.com/wordsmith_db:1.1
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "wordsmith"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretkeyRef:
+              name: db-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretkeyRef:
+              name: db-secret
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordsmith_db
+spec:
+  selector:
+    app: wordsmith_db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432

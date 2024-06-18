@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith_api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordsmith_api
+  template:
+    metadata:
+      labels:
+        app: wordsmith_api
+    spec:
+      containers:
+      - name: wordsmith_api
+        image: 352588443787.dkr.ecr.us-east-1.amazonaws.com/wordsmith_api:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://wordsmith_db:5432/wordsmith"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretkeyRef:
+              name: db-secret
+              key: username
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretkeyRef:
+              name: db-secret
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordsmith_api
+spec:
+  type: LoadBalancer
+  selector:
+    app: wordsmith_api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
