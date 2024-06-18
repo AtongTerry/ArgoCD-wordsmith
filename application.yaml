@@ -12,8 +12,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: wordsmith
-  SyncPolicy: 
-    SyncOptions:
+  syncPolicy: 
+    syncOptions:
     - CreateNamespace=true
     automated:
       selfHeal: true
