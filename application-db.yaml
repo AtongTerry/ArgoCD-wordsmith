@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/AtongTerry/ArgoCD-wordsmith.git
     targetRevision: HEAD
-    path: manifests
+    path: helm/db
   destination:
     server: https://kubernetes.default.svc
     namespace: wordsmith

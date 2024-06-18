@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wordsmith_api
-        image: 352588443787.dkr.ecr.us-east-1.amazonaws.com/wordsmith_api:1.0
+        image: "{{ .Values.image.api.repository }}:{{ .Values.image.api.tag | default .Chart.AppVersion }}"
         ports:
         - containerPort: 8080
         env:

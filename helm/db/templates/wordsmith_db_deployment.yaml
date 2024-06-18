@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: wordsmith_db
-        image: 352588443787.dkr.ecr.us-east-1.amazonaws.com/wordsmith_db:1.1
+        image: "{{ .Values.image.db.repository }}:{{ .Values.image.db.tag | default .Chart.AppVersion }}"
         ports:
         - containerPort: 5432
         env:
