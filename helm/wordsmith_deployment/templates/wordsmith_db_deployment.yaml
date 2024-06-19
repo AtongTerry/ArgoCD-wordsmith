@@ -31,6 +31,13 @@ spec:
             secretKeyRef:
               name: db-secret
               key: password
+        volumeMounts:
+        - name: init-sql
+          mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+      - name: init-sql
+        configMap:
+          name: db-init-sql
 ---
 apiVersion: v1
 kind: Service
