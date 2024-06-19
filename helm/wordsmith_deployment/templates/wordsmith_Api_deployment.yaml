@@ -16,10 +16,14 @@ spec:
       - name: wordsmith-api
         image: "{{ .Values.image.api.repository }}:{{ .Values.image.api.tag | default .Chart.AppVersion }}"
         ports:
-        - containerPort: 8080
+        - containerPort: 5000
         env:
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://wordsmith_db:5432/wordsmith"
+        - name: DB_HOST
+          value: wordsmith-db
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_PORT
+          value: wordsmith_db
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
@@ -41,5 +45,5 @@ spec:
     app: wordsmith-api
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 8080
+      port: 5000
+      targetPort: 5000
