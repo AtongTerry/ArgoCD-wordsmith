@@ -40,7 +40,6 @@ kind: Service
 metadata:
   name: wordsmith-api
 spec:
-  type: LoadBalancer
   selector:
     app: wordsmith-api
   ports:
