@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: wordsmith-web
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: wordsmith-web
@@ -20,7 +20,7 @@ spec:
         - containerPort: 8080
         env:
         - name: API_URL
-          value: "http://wordsmith_api"
+          value: "http://wordsmith_api:5000/wordsmith/words"
 
 ---
 apiVersion: v1
@@ -34,5 +34,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
 
